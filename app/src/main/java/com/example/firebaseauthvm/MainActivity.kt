@@ -54,11 +54,7 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return when (item.itemId) {
             R.id.action_nickname -> {
-                if (authvm.getUser() == null) {
-                    showErrorSnackbar(getString(R.string.notLoggedIn))
-                } else {
-                    setNicknameDialog()
-                }
+
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -77,29 +73,5 @@ class MainActivity : AppCompatActivity() {
             .show()
     }
 
-    private fun setNicknameDialog() {
-        val editTextNickname = EditText(this)
-        editTextNickname.hint = getString(R.string.nicknameHint)
 
-        val alertDialog = AlertDialog.Builder(this)
-            .setTitle(getString(R.string.setNickname_title))
-            .setMessage(getString(R.string.setNickname_msg))
-            .setView(editTextNickname)
-            .setPositiveButton("OK") { dialog, _ ->
-                val nickname = editTextNickname.text.toString().trim()
-                if (nickname.isNullOrEmpty()) {
-                    showErrorSnackbar(getString(R.string.noValidInput))
-                } else {
-                    authvm.updateNickname(nickname)
-                    Log.i(">>> Input Dialog", "Input: $nickname")
-                    dialog.dismiss()
-                }
-            }
-            .setNegativeButton("Cancel") { dialog, _ ->
-                dialog.cancel()
-            }
-            .create()
-
-        alertDialog.show()
-    }
 }
